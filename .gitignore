@@ -1,0 +1,56 @@
+node_modules
+
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Tauri
+/src-tauri/target/
+/src-tauri/WixTools/
+/src-tauri/.cargo/
+*.msi
+*.dmg
+*.deb
+*.rpm
+*.AppImage
+*.app
+*.exe
+
+# Rust
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+# Tauri updater artifacts
+/src-tauri/gen/
+
+# Bundle artifacts
+/src-tauri/bundles/
+
+# Code signing
+*.p12
+*.pfx
+
+# Platform specific
+.DS_Store
+*.swp
+*.swo
+*~
