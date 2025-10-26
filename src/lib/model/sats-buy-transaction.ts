@@ -1,8 +1,10 @@
+import type { Currency } from "./enum/currency.enum";
+
 export interface SatsBuyTransaction {
     id: string;
     sats: number;
     cost: number;
-    currency: string;
+    currency: Currency;
     date: string; // ISO 8601 format
     description: string;
 }

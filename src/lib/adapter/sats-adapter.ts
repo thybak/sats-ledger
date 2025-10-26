@@ -7,13 +7,11 @@ export class SatsAdapter implements SatsRepository {
     private satsBuyEntity = new SatsBuy();
 
     async addSatsBuy(transaction: SatsBuyTransaction): Promise<void> {
-        // Implementation for adding a buy transaction
         await this.satsBuyEntity.insert(transaction);
     }
 
     async getListofSatsBuys(): Promise<SatsBuyTransaction[]> {
-        // Implementation for retrieving buy transactions
-        return [];
+        return this.satsBuyEntity.getAll();
     }
 
     async addSatsSell(sell: SatsSellTransaction): Promise<void> {
@@ -23,6 +21,6 @@ export class SatsAdapter implements SatsRepository {
 
     async getListofSatsSells(): Promise<SatsSellTransaction[]> {
         // Implementation for retrieving sell transactions
-        return [];
+        throw new Error('Method not implemented.');
     }
 }
