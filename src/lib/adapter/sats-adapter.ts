@@ -1,10 +1,13 @@
+import type { AvailableSatsBuyTransaction } from "$lib/model/available-sats-buy-transaction";
 import type { SatsBuyTransaction } from "$lib/model/sats-buy-transaction";
 import type { SatsSellTransaction } from "$lib/model/sats-sell-transaction";
 import type { SatsRepository } from "$lib/use-case/repo/sats-repository";
 import { SatsBuy } from "./database/entities/sats-buy";
+import { SatsSell } from "./database/entities/sats-sell";
 
 export class SatsAdapter implements SatsRepository {
     private satsBuyEntity = new SatsBuy();
+    private satsSellEntity = new SatsSell();
 
     async addSatsBuy(transaction: SatsBuyTransaction): Promise<void> {
         await this.satsBuyEntity.insert(transaction);
@@ -15,12 +18,19 @@ export class SatsAdapter implements SatsRepository {
     }
 
     async addSatsSell(sell: SatsSellTransaction): Promise<void> {
-        // Implementation for adding a sell transaction
-        throw new Error(`Method not implemented. ${sell.id}`);
+        await this.satsSellEntity.insert(sell);
     }
 
     async getListofSatsSells(): Promise<SatsSellTransaction[]> {
         // Implementation for retrieving sell transactions
         throw new Error('Method not implemented.');
+    }
+
+    async getTotalSatsBalance(): Promise<number> {
+        return this.satsSellEntity.getTotalSatsBalance();
+    }
+
+    async getNotFullyAllocatedBuys(): Promise<AvailableSatsBuyTransaction[]> {
+        return this.satsBuyEntity.getNotFullyAllocatedBuys();
     }
 }

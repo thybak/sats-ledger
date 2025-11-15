@@ -1,6 +1,6 @@
 export interface SatsSellAllocation {
+    id: string;
     buyTransactionId: string;
     sellTransactionId: string;
-    satsAllocated: number;
-    date: string; // ISO 8601 format
+    sats: number;
 }
