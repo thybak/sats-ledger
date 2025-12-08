@@ -4,26 +4,29 @@
 </script>
 
 <svelte:head>
-	<title>Sats ledger</title>
+	<title>Sats ledger - Buy</title>
 	<meta name="description" content="Sats ledger" />
 </svelte:head>
 
 <section>
 	<h1>
-		Sats ledger - add your sats buy and sell transactions
+		Sats ledger - add your sats buy transactions
 	</h1>
+	<ul>
+		<li><a href="/sell">Sell</a></li>
+	</ul>
 	<form method="POST">
-		<label>
+		<label for="sats">
 			Sats:
-			<input name="sats" type="number" />
+			<input name="sats" type="number" id="sats" />
 		</label>
-		<label>
+		<label for="cost">
 			Cost:
-			<input name="cost" type="number" />
+			<input name="cost" type="number" id="cost" />
 		</label>
-		<label>
+		<label for="currency">
 			Currency: 
-			<select name="currency">
+			<select name="currency" id="currency">
 				<option value="EUR">EUR</option>
 			</select>
 		</label>

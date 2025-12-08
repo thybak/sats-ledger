@@ -22,8 +22,7 @@ export class SatsAdapter implements SatsRepository {
     }
 
     async getListofSatsSells(): Promise<SatsSellTransaction[]> {
-        // Implementation for retrieving sell transactions
-        throw new Error('Method not implemented.');
+        return this.satsSellEntity.getAll();
     }
 
     async getTotalSatsBalance(): Promise<number> {

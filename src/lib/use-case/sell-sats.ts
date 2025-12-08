@@ -1,3 +1,4 @@
+import { Currency } from "$lib/model/enum/currency.enum";
 import type { SatsSellAllocation } from "$lib/model/sats-sell-allocation";
 import type { ExchangeRepository } from "./repo/exchange-repository";
 import type { SatsRepository } from "./repo/sats-repository";
@@ -13,7 +14,7 @@ export class SellSats {
         currency: string,
         description: string
     }): Promise<void> {
-        if (!Object.values(sellTransaction.currency).includes(sellTransaction.currency)) {
+        if (!Object.values(Currency).includes(sellTransaction.currency as Currency)) {
             throw new Error(`Invalid currency: ${sellTransaction.currency}`);
         }
         if (sellTransaction.sats > await this.satsRepository.getTotalSatsBalance()) {

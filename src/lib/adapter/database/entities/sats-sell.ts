@@ -31,6 +31,12 @@ export class SatsSell {
         VALUES (?, ?, ?, ?)
     `);
 
+    private selectAllStmt = this.db.prepare(`
+        SELECT id, sats, revenue, currency, date, description
+        FROM sats_sell_transactions
+        ORDER BY date DESC
+    `);
+
     async getTotalSatsBalance(): Promise<number> {
         try {
             const row = this.totalSatsBalance.get() as { available_sats: number | null };
@@ -65,6 +71,15 @@ export class SatsSell {
             insertSellTransaction();
         } catch (error) {
             console.error("Error inserting sell transaction:", error);
+            throw error;
+        }
+    }
+
+    async getAll(): Promise<SatsSellTransaction[]> {
+        try {
+            return this.selectAllStmt.all() as SatsSellTransaction[];
+        } catch (error) {
+            console.error("Error fetching all sats sell transactions:", error);
             throw error;
         }
     }
