@@ -1,38 +1,84 @@
-# sv
+# sats-ledger
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Bitcoin satoshi buy/sell tracking ledger with FIFO-based sell allocation. Built as a Tauri 2 desktop app with SvelteKit 5 and TypeScript.
 
-## Creating a project
+## Features
 
-If you're seeing this, you've probably already done this step. Congrats!
+- Record BTC satoshi buy transactions with price and currency
+- Record sell transactions with automatic FIFO allocation to buy lots
+- Track cost basis, gains/losses, and remaining balances per buy lot
+- Local-first with SQLite database
 
-```sh
-# create a new project in the current directory
-npx sv create
+## Tech Stack
 
-# create a new project in my-app
-npx sv create my-app
+- **Frontend**: SvelteKit 5 + Svelte 5
+- **Desktop**: Tauri 2
+- **Database**: SQLite via better-sqlite3 (raw SQL, no ORM)
+- **Language**: TypeScript (strict) + Rust
+- **Package manager**: pnpm
+- **Testing**: Vitest + Playwright
+
+## Architecture
+
+Clean/Hexagonal architecture with manual dependency injection:
+
+```
+routes/ -> use-case/ -> use-case/repo/ (interfaces) -> adapter/ -> database/entities/
 ```
 
-## Developing
+See `AGENTS.md` for detailed architecture and conventions.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Prerequisites
 
-```sh
-npm run dev
+- Distrobox (or similar container tool)
+- Fedora 44 container image
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
+## Getting Started
 
 ```sh
-npm run build
+# Create and enter a Fedora 44 container
+distrobox create --image fedora:44 --name sats-ledger
+distrobox enter sats-ledger
+
+# Bootstrap: installs system packages, mise, tool versions, and JS deps
+./bootstrap.sh
+
+# Start the Tauri dev app
+pnpm tauri dev
 ```
 
-You can preview the production build with `npm run preview`.
+## Development
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+```sh
+pnpm dev          # Start Vite dev server (SvelteKit HMR)
+pnpm tauri dev    # Full Tauri desktop app
+pnpm check        # Type-check
+pnpm lint         # ESLint + Prettier
+pnpm format       # Auto-format
+pnpm test         # Run all tests
+```
+
+## Project Structure
+
+```
+src/
+  lib/
+    model/           # Types and enums
+    use-case/        # Business logic
+      repo/          # Repository interfaces (ports)
+    adapter/         # Concrete implementations
+      database/
+        entities/    # SQL via better-sqlite3
+  routes/            # SvelteKit pages
+src-tauri/           # Rust/Tauri shell
+```
+
+## Database
+
+SQLite with versioned migrations. Current schema version: 2.
+
+Tables: `sats_buy_transactions`, `sats_sell_transactions`, `sats_sell_allocations`
+
+## License
+
+MIT
