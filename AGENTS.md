@@ -4,16 +4,16 @@ Bitcoin satoshi buy/sell tracking ledger with FIFO-based sell allocation. Tauri 
 
 ## Tech Stack
 
-| Layer | Technology | Version |
-|-------|-----------|---------|
-| Language | TypeScript (strict) + Rust | TS 5.9 / Rust 2021 |
-| Frontend | SvelteKit + Svelte 5 | Kit 2.55 / Svelte 5.55 |
-| Desktop | Tauri 2 | 2.10 CLI |
-| Database | better-sqlite3 (sync SQLite) | 12.8 |
-| Package | pnpm | 10.33 |
-| Test | Vitest + Playwright | 3.2 |
-| Lint | ESLint (flat config) + Prettier | 9.x / 3.8 |
-| Dev env | mise + bootstrap.sh (Fedora/Distrobox) | - |
+| Layer    | Technology                             | Version                |
+| -------- | -------------------------------------- | ---------------------- |
+| Language | TypeScript (strict) + Rust             | TS 5.9 / Rust 2021     |
+| Frontend | SvelteKit + Svelte 5                   | Kit 2.55 / Svelte 5.55 |
+| Desktop  | Tauri 2                                | 2.10 CLI               |
+| Database | better-sqlite3 (sync SQLite)           | 12.8                   |
+| Package  | pnpm                                   | 10.33                  |
+| Test     | Vitest + Playwright                    | 3.2                    |
+| Lint     | ESLint (flat config) + Prettier        | 9.x / 3.8              |
+| Dev env  | mise + bootstrap.sh (Fedora/Distrobox) | -                      |
 
 No ORM. Raw SQL via better-sqlite3 prepared statements.
 
@@ -75,12 +75,12 @@ adapter/database/entities/     <- Raw SQL via better-sqlite3
 
 ### Naming
 
-| Thing | Convention | Example |
-|-------|-----------|---------|
-| Files | kebab-case | `buy-sats.ts`, `sats-buy.ts` |
-| Classes / Interfaces / Enums | PascalCase | `BuySats`, `SatsRepository`, `Currency` |
-| Methods / properties | camelCase | `getNotFullyAllocatedBuys()` |
-| Constants | SCREAMING_SNAKE_CASE | `SCHEMA_VERSION` |
+| Thing                        | Convention           | Example                                 |
+| ---------------------------- | -------------------- | --------------------------------------- |
+| Files                        | kebab-case           | `buy-sats.ts`, `sats-buy.ts`            |
+| Classes / Interfaces / Enums | PascalCase           | `BuySats`, `SatsRepository`, `Currency` |
+| Methods / properties         | camelCase            | `getNotFullyAllocatedBuys()`            |
+| Constants                    | SCREAMING_SNAKE_CASE | `SCHEMA_VERSION`                        |
 
 ### TypeScript
 
@@ -132,15 +132,15 @@ Flat config. Extends: js recommended, ts recommended, svelte recommended, pretti
 
 ## Commands
 
-| Command | Purpose |
-|---------|---------|
-| `pnpm dev` | Start Vite dev server (SvelteKit HMR) |
-| `pnpm build` | Production build |
-| `pnpm check` | Type-check via svelte-check |
-| `pnpm lint` | ESLint + Prettier check |
-| `pnpm format` | Auto-format with Prettier |
-| `pnpm test` | Run all Vitest tests (single run) |
-| `pnpm prepare` | Run `svelte-kit sync` (generate types) |
+| Command          | Purpose                                                    |
+| ---------------- | ---------------------------------------------------------- |
+| `pnpm dev`       | Start Vite dev server (SvelteKit HMR)                      |
+| `pnpm build`     | Production build                                           |
+| `pnpm check`     | Type-check via svelte-check                                |
+| `pnpm lint`      | ESLint + Prettier check                                    |
+| `pnpm format`    | Auto-format with Prettier                                  |
+| `pnpm test`      | Run all Vitest tests (single run)                          |
+| `pnpm prepare`   | Run `svelte-kit sync` (generate types)                     |
 | `pnpm tauri dev` | Full Tauri desktop app (starts Vite + opens native window) |
 
 ## Adding a Feature

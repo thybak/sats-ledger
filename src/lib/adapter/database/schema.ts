@@ -46,4 +46,4 @@ CREATE TABLE IF NOT EXISTS sats_sell_allocations (
 CREATE INDEX IF NOT EXISTS idx_sats_sell_allocations_sell_id ON sats_sell_allocations(sell_transaction_id);
 CREATE INDEX IF NOT EXISTS idx_sats_sell_allocations_buy_id ON sats_sell_allocations(buy_transaction_id);
 
-`
+`;

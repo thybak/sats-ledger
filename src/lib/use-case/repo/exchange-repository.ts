@@ -1,3 +1,3 @@
 export interface ExchangeRepository {
-    getCurrentPricePerSat(currency: string): Promise<number>;
+	getCurrentPricePerSat(currency: string): Promise<number>;
 }
