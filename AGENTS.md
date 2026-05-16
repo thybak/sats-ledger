@@ -24,6 +24,8 @@ src/
   app.css                  # Global styles (CSS variables, typography)
   app.html                 # Root HTML template
   lib/                     # $lib alias -> src/lib/
+    di/
+      container.ts         # Composition root (wires adapters -> use cases)
     model/                 # Pure TS interfaces & enums - NO logic
       enum/currency.enum.ts
     use-case/              # Business logic classes (one per file)
@@ -46,7 +48,10 @@ src-tauri/                 # Rust/Tauri desktop shell
 
 ```
 routes/ (+page.server.ts)      <- SvelteKit load() & form actions
-  |  new UseCase(new Adapter())
+  |  container.useCase.execute()
+  v
+di/container.ts                <- Composition root (wires all deps)
+  |  exports pre-wired use cases
   v
 use-case/ (BuySats, SellSats)  <- Business logic, validation, UUIDs, FIFO
   |  calls repo method
@@ -62,10 +67,12 @@ adapter/database/entities/     <- Raw SQL via better-sqlite3
 
 **Key patterns:**
 
-- **Manual DI**: Use cases receive dependencies via constructor - no DI framework.
+- **Composition root**: `di/container.ts` wires all adapters and use cases. Routes import `container` and call use cases directly.
   ```ts
-  new BuySats(new SatsAdapter()).execute({ ... })
+  import { container } from '$lib/di/container';
+  await container.buySats.execute({ ... });
   ```
+  Adapters are singletons. Use cases are transient (new instance per getter call).
 - **Singletons**: DB connection is a singleton. Database file: `./db/sats-ledger.db`.
 - **Schema migration**: Auto-applied on first DB access. Version tracked in `schema_info` table. Migrations run top-to-bottom sequentially.
 - **UUIDs**: Generated in use cases (`crypto.randomUUID()`) not in adapters.
@@ -194,7 +201,8 @@ All styling uses CSS custom properties in `app.css`. Theme color is Bitcoin oran
 3. **Implement DB entity** in `src/lib/adapter/database/entities/` (raw SQL)
 4. **Update adapter** in `src/lib/adapter/` (delegate to entity)
 5. **Create use case** in `src/lib/use-case/` (validation + logic)
-6. **Wire in route** `+page.server.ts` (instantiate and call in load() or actions)
+6. **Wire in container** `di/container.ts` (add adapter as singleton property, use case as getter)
+7. **Use in route** `+page.server.ts` (import `container`, call `container.useCase.execute()`)
 
 Always run `pnpm check && pnpm lint && pnpm test` after changes.
 
