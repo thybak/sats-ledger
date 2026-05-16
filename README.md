@@ -11,8 +11,8 @@ Bitcoin satoshi buy/sell tracking ledger with FIFO-based sell allocation. Built 
 
 ## Tech Stack
 
-- **Frontend**: SvelteKit 5 + Svelte 5
-- **Desktop**: Tauri 2
+- **Frontend**: SvelteKit 2+ + Svelte 5+
+- **Desktop**: Tauri 2+
 - **Database**: SQLite via better-sqlite3 (raw SQL, no ORM)
 - **Language**: TypeScript (strict) + Rust
 - **Package manager**: pnpm
@@ -20,10 +20,10 @@ Bitcoin satoshi buy/sell tracking ledger with FIFO-based sell allocation. Built 
 
 ## Architecture
 
-Clean/Hexagonal architecture with manual dependency injection:
+Clean/Hexagonal architecture with containerized dependency injection:
 
 ```
-routes/ -> use-case/ -> use-case/repo/ (interfaces) -> adapter/ -> database/entities/
+routes/ -> di/ -> use-case/ -> use-case/repo/ (interfaces) -> adapter/ -> database/entities/
 ```
 
 See `AGENTS.md` for detailed architecture and conventions.
@@ -63,6 +63,7 @@ pnpm test         # Run all tests
 ```
 src/
   lib/
+    di/              # Dependency Injection container
     model/           # Types and enums
     use-case/        # Business logic
       repo/          # Repository interfaces (ports)
