@@ -106,6 +106,50 @@ Flat config. Extends: js recommended, ts recommended, svelte recommended, pretti
 - No comments unless strictly necessary.
 - 1 blank line between imports and code.
 
+## UI/UX Architecture
+
+### Layout Pattern
+
+```
++layout.svelte
+├── <nav class="navbar">        ← Fixed top nav with brand + tabs
+│   ├── .navbar-brand           ← App name (Bitcoin orange)
+│   └── .navbar-tabs            ← Tab links with .active state
+└── <main class="container">    ← Centered content (max 800px)
+    └── <slot />                ← Page content
+```
+
+### Design Tokens
+
+All styling uses CSS custom properties in `app.css`. Theme color is Bitcoin orange (`#f7931a`). Do not hardcode colors — use the existing token system.
+
+### Component Patterns
+
+| Pattern       | Class                       | Usage                                |
+| ------------- | --------------------------- | ------------------------------------ |
+| Content block | `.card`                     | Wrap forms, tables, sections         |
+| Form field    | `.form-group`               | Label + input/select/textarea        |
+| Inline fields | `.form-row`                 | Grid of 2 columns (stacks on mobile) |
+| Submit button | `button[type='submit']`     | Full-width, themed                   |
+| Data table    | `.table-wrapper > table`    | Scrollable wrapper + styled table    |
+| Feedback      | `.feedback.success\|.error` | Success/error messages               |
+| Empty state   | `.empty-state`              | Centered placeholder when no data    |
+
+### Conventions
+
+- **Numeric data**: Use `.mono` class + `.text-right` alignment for all numbers in tables
+- **Active tabs**: Use `class:active={page.url.pathname === '/path'}` for tab highlighting
+- **Form feedback**: Check `data.success` and `data.error` from server actions, render `.feedback` blocks above forms
+- **Empty states**: Always provide a message when lists/tables are empty
+- **Page titles**: Set `<svelte:head><title>Sats Ledger - Page</title></svelte:head>` per page
+
+### Svelte Conventions
+
+- Use `$props()` for Svelte 5 component props (not `export let`)
+- Import `PageProps` from `./$types` for page components: `let { data, form }: PageProps = $props()`
+- `data` contains the return from `load()`, `form` contains the last action result
+- Import `app.css` in `+layout.svelte` once, not in every page
+
 ## Database
 
 - **Engine:** SQLite via better-sqlite3 (synchronous API but wrapped in Promises for API consistency).

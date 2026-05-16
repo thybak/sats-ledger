@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-	let { data }: { data: PageData & { success?: boolean; error?: string } } = $props();
+	import type { PageProps } from './$types';
+	let { data, form }: PageProps = $props();
 </script>
 
 <svelte:head>
@@ -9,10 +9,10 @@
 
 <div class="card">
 	<h2>Record Buy Transaction</h2>
-	{#if data.error}
-		<div class="feedback error">{data.error}</div>
+	{#if form?.error}
+		<div class="feedback error">{form.error}</div>
 	{/if}
-	{#if data.success}
+	{#if form?.success}
 		<div class="feedback success">Buy transaction recorded successfully.</div>
 	{/if}
 	<form method="POST">
