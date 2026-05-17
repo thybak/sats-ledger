@@ -13,7 +13,7 @@ Bitcoin satoshi buy/sell tracking ledger with FIFO-based sell allocation. Tauri 
 | Package  | pnpm                                   | 10.33                  |
 | Test     | Vitest + Playwright                    | 3.2                    |
 | Lint     | ESLint (flat config) + Prettier        | 9.x / 3.8              |
-| Dev env  | mise + bootstrap.sh (Ubuntu/Distrobox)  | -                      |
+| Dev env  | mise + bootstrap.sh (Ubuntu/Distrobox) | -                      |
 
 No ORM. Raw SQL via better-sqlite3 prepared statements.
 
