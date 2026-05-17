@@ -13,7 +13,7 @@ Bitcoin satoshi buy/sell tracking ledger with FIFO-based sell allocation. Tauri 
 | Package  | pnpm                                   | 10.33                  |
 | Test     | Vitest + Playwright                    | 3.2                    |
 | Lint     | ESLint (flat config) + Prettier        | 9.x / 3.8              |
-| Dev env  | mise + bootstrap.sh (Fedora/Distrobox) | -                      |
+| Dev env  | mise + bootstrap.sh (Ubuntu/Distrobox)  | -                      |
 
 No ORM. Raw SQL via better-sqlite3 prepared statements.
 
@@ -210,4 +210,4 @@ Always run `pnpm check && pnpm lint && pnpm test` after changes.
 
 - **mise**: Tool version manager. Versions pinned in `mise.toml` (node, pnpm, rust).
 - **bootstrap.sh**: Installs system packages, mise, and project deps inside a Fedora container. Run `./bootstrap.sh` after entering the container.
-- **Distrobox**: Recommended for isolating dev environment from host OS. Use a Fedora 44 container.
+- **Distrobox**: Recommended for isolating dev environment from host OS. Use an Ubuntu 24.04 container.

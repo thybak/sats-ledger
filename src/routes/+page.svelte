@@ -53,7 +53,7 @@
 
 <div class="card">
 	<h2>Buy Transactions</h2>
-	{#if data.satsBuys.length === 0}
+	{#if (data?.satsBuys && data.satsBuys.length === 0) || !data?.satsBuys }
 		<div class="empty-state">No buy transactions yet. Record your first purchase above.</div>
 	{:else}
 		<div class="table-wrapper">

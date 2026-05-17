@@ -4,57 +4,43 @@ set -euo pipefail
 # -----------------------------------------------------------------------------
 # bootstrap.sh
 #
-# Bootstraps a Fedora-based Distrobox/Toolbox container for developing a
+# Bootstraps an Ubuntu-based Distrobox/Toolbox container for developing a
 # Tauri + Svelte + TypeScript application.
 #
 # Responsibilities:
-#   1. Install required system packages via dnf.
+#   1. Install required system packages via apt-get.
 #   2. Install mise (tool version manager).
 #   3. Install pinned development tools from mise.toml.
 #   4. Install JavaScript dependencies with pnpm.
+#   5. Install Playwright browsers with system dependencies.
 #
 # Usage:
 #   chmod +x bootstrap.sh
 #   ./bootstrap.sh
 #
 # Assumptions:
-#   - Running inside a Fedora 44 container.
+#   - Running inside an Ubuntu 24.04 container.
 #   - A mise.toml file exists in the project root.
 #   - package.json is present.
 # -----------------------------------------------------------------------------
 
 echo "==> Updating package metadata..."
-sudo dnf -y update
+sudo apt-get update
 
 echo "==> Installing base development packages..."
-sudo dnf install -y \
+sudo apt-get install -y \
+  libwebkit2gtk-4.1-dev \
+  build-essential \
   curl \
-  git \
-  gcc \
-  gcc-c++ \
-  make \
-  pkgconf-pkg-config \
-  openssl-devel \
-  webkit2gtk4.1-devel \
-  gtk3-devel \
-  glib2-devel \
-  cairo-devel \
-  pango-devel \
-  gdk-pixbuf2-devel \
-  atk-devel \
-  libsoup3-devel \
-  javascriptcoregtk4.1-devel \
-  librsvg2-devel \
-  libappindicator-gtk3-devel \
-  patchelf \
-  which \
-  xdg-utils \
+  wget \
   file \
+  libxdo-dev \
+  libssl-dev \
+  libayatana-appindicator3-dev \
+  librsvg2-dev \
+  patchelf \
   unzip \
-  tar
-
-# Optional but useful tools
-sudo dnf install -y \
+  tar \
   just \
   jq
 
@@ -101,6 +87,12 @@ if [[ -f package.json ]]; then
 else
   echo "WARNING: package.json not found. Skipping pnpm install."
 fi
+
+# -----------------------------------------------------------------------------
+# Install Playwright browsers with system dependencies
+# -----------------------------------------------------------------------------
+echo "==> Installing Playwright browsers and system dependencies..."
+pnpm exec playwright install --with-deps
 
 echo
 echo "Bootstrap completed successfully."

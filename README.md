@@ -31,16 +31,16 @@ See `AGENTS.md` for detailed architecture and conventions.
 ## Prerequisites
 
 - Distrobox (or similar container tool)
-- Fedora 44 container image
+- Ubuntu 24.04 container image
 
 ## Getting Started
 
 ```sh
-# Create and enter a Fedora 44 container
-distrobox create --image fedora:44 --name sats-ledger
+# Create and enter an Ubuntu 24.04 container
+distrobox create --image ubuntu:24.04 --name sats-ledger
 distrobox enter sats-ledger
 
-# Bootstrap: installs system packages, mise, tool versions, and JS deps
+# Bootstrap: installs system packages, mise, tool versions, JS deps, and Playwright browsers
 ./bootstrap.sh
 
 # Start the Tauri dev app
