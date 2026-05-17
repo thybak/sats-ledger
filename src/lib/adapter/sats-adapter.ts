@@ -25,10 +25,6 @@ export class SatsAdapter implements SatsRepository {
 		return this.satsSellEntity.getAll();
 	}
 
-	async getTotalSatsBalance(): Promise<number> {
-		return this.satsSellEntity.getTotalSatsBalance();
-	}
-
 	async getNotFullyAllocatedBuys(): Promise<AvailableSatsBuyTransaction[]> {
 		return this.satsBuyEntity.getNotFullyAllocatedBuys();
 	}

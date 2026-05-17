@@ -9,6 +9,5 @@ export interface SatsRepository {
 	addSatsSell(transaction: SatsSellTransaction): Promise<void>;
 	getListofSatsSells(): Promise<SatsSellTransaction[]>;
 
-	getTotalSatsBalance(): Promise<number>;
 	getNotFullyAllocatedBuys(): Promise<AvailableSatsBuyTransaction[]>;
 }

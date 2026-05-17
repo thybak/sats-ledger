@@ -1,14 +1,17 @@
 import { Currency } from '$lib/model/enum/currency.enum';
 import type { SatsSellAllocation } from '$lib/model/sats-sell-allocation';
 import type { ExchangeRepository } from './repo/exchange-repository';
+import type { SatsBalanceRepository } from './repo/sats-balance-repository';
 import type { SatsRepository } from './repo/sats-repository';
 
 export class SellSats {
 	constructor(
 		private satsRepository: SatsRepository,
+		private satsBalanceRepository: SatsBalanceRepository,
 		private exchangeRepository: ExchangeRepository
 	) {
 		this.satsRepository = satsRepository;
+		this.satsBalanceRepository = satsBalanceRepository;
 		this.exchangeRepository = exchangeRepository;
 	}
 
@@ -21,7 +24,8 @@ export class SellSats {
 		if (!Object.values(Currency).includes(sellTransaction.currency as Currency)) {
 			throw new Error(`Invalid currency: ${sellTransaction.currency}`);
 		}
-		if (sellTransaction.sats > (await this.satsRepository.getTotalSatsBalance())) {
+		const balance = await this.satsBalanceRepository.getBalance();
+		if (sellTransaction.sats > balance.availableSats) {
 			throw new Error(`Insufficient sats to sell: ${sellTransaction.sats}`);
 		}
 
