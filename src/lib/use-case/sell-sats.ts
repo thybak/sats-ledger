@@ -2,15 +2,18 @@ import { Currency } from '$lib/model/enum/currency.enum';
 import type { SatsSellAllocation } from '$lib/model/sats-sell-allocation';
 import type { ExchangeRepository } from './repo/exchange-repository';
 import type { SatsBalanceRepository } from './repo/sats-balance-repository';
-import type { SatsRepository } from './repo/sats-repository';
+import type { SatsBuyRepository } from './repo/sats-buy-repository';
+import type { SatsSellRepository } from './repo/sats-sell-repository';
 
 export class SellSats {
 	constructor(
-		private satsRepository: SatsRepository,
+		private satsBuyRepository: SatsBuyRepository,
+		private satsSellRepository: SatsSellRepository,
 		private satsBalanceRepository: SatsBalanceRepository,
 		private exchangeRepository: ExchangeRepository
 	) {
-		this.satsRepository = satsRepository;
+		this.satsBuyRepository = satsBuyRepository;
+		this.satsSellRepository = satsSellRepository;
 		this.satsBalanceRepository = satsBalanceRepository;
 		this.exchangeRepository = exchangeRepository;
 	}
@@ -32,7 +35,7 @@ export class SellSats {
 		const sellTransactionId = crypto.randomUUID();
 		const allocations = await this.createAllocations(sellTransaction.sats, sellTransactionId);
 
-		await this.satsRepository.addSatsSell({
+		await this.satsSellRepository.addSatsSell({
 			id: sellTransactionId,
 			sats: sellTransaction.sats,
 			revenue: allocations.reduce((acc, alloc) => acc + alloc.revenue, 0),
@@ -56,7 +59,7 @@ export class SellSats {
 	): Promise<
 		{ buyTransactionId: string; sellTransactionId: string; sats: number; revenue: number }[]
 	> {
-		const availableBuys = await this.satsRepository.getNotFullyAllocatedBuys();
+		const availableBuys = await this.satsBuyRepository.getNotFullyAllocatedBuys();
 		let satsRemaining = satsToSell;
 		const allocations: {
 			buyTransactionId: string;

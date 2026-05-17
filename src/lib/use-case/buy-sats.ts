@@ -1,9 +1,9 @@
 import { Currency } from '$lib/model/enum/currency.enum';
-import type { SatsRepository } from './repo/sats-repository';
+import type { SatsBuyRepository } from './repo/sats-buy-repository';
 
 export class BuySats {
-	constructor(private readonly satsRepository: SatsRepository) {
-		this.satsRepository = satsRepository;
+	constructor(private readonly satsBuyRepository: SatsBuyRepository) {
+		this.satsBuyRepository = satsBuyRepository;
 	}
 
 	async execute(transaction: {
@@ -17,7 +17,7 @@ export class BuySats {
 			throw new Error(`Invalid currency: ${transaction.currency}`);
 		}
 
-		await this.satsRepository.addSatsBuy({
+		await this.satsBuyRepository.addSatsBuy({
 			id: crypto.randomUUID(),
 			sats: transaction.sats,
 			cost: transaction.cost,

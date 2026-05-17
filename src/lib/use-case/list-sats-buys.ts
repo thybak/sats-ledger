@@ -1,10 +1,10 @@
 import type { SatsBuyTransaction } from '$lib/model/sats-buy-transaction';
-import type { SatsRepository } from './repo/sats-repository';
+import type { SatsBuyRepository } from './repo/sats-buy-repository';
 
 export class ListSatsBuys {
-	constructor(private satsRepository: SatsRepository) {}
+	constructor(private satsBuyRepository: SatsBuyRepository) {}
 
 	async execute(): Promise<SatsBuyTransaction[]> {
-		return this.satsRepository.getListofSatsBuys();
+		return this.satsBuyRepository.getListofSatsBuys();
 	}
 }
